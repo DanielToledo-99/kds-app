@@ -1,7 +1,7 @@
 export interface RootState {
   orders: {
     orders: {
-      completed: any;
+      status: any;
       id: string;
       items: string[];
     }[];

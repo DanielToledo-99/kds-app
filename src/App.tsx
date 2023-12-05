@@ -1,14 +1,17 @@
 import React from "react";
 import OrderList from "./compoments/OrderList";
-import OrderContainer from "./features/OrderContainer";
+
+import { NavigationLayout } from "./layouts/NavigationLayout";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
-    <div style={{ background: "#1f4457", height: "100%" }}>
-      <h1>Kitchen Display System</h1>
-      <OrderList />
-      <OrderContainer />
-    </div>
+    <Router>
+      <div style={{ display: "flex", flexDirection: "column", margin: 0 }}>
+        <NavigationLayout defaultTitle="Kitchen Display System" />
+        <OrderList />
+      </div>
+    </Router>
   );
 };
 

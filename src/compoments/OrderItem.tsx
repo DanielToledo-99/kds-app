@@ -60,20 +60,24 @@ const OrderItem: React.FC<OrderItemProps> = ({ id, items }) => {
           margin: "10px 0",
         }}
       />
-      <Button
-        type="primary"
-        style={{ marginRight: "10px", marginTop: "12px" }}
-        onClick={handleViewDetails}
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "12px" }}
       >
-        Ver Detalles
-      </Button>
-      <Button
-        type="primary"
-        style={{ backgroundColor: "green", borderColor: "green" }}
-        onClick={() => handleMarkCompleted()}
-      >
-        Completada
-      </Button>
+        <Button
+          type="primary"
+          style={{ marginRight: "10px" }}
+          onClick={handleViewDetails}
+        >
+          Ver Detalles
+        </Button>
+        <Button
+          type="primary"
+          style={{ backgroundColor: "green", borderColor: "green" }}
+          onClick={() => handleMarkCompleted()}
+        >
+          Completada
+        </Button>
+      </div>
     </OrderItemWrapper>
   );
 };
