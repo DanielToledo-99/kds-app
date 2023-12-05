@@ -1,43 +1,51 @@
-# Getting Started with Create React App
+# Kitchen Display System (KDS) Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto consta de la creación de la aplicación web de Kitchen Display System (KDS) utilizando tecnologías modernas como React.js, Styled Components, React Hooks, Redux y TypeScript. La aplicación está diseñada para permitir la visualización en tiempo real de los pedidos, facilitando la gestión eficiente de la cocina y mejorando la comunicación entre el personal.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+Este proyecto se centra en el seguimiento y análisis de las ventas de un servicio de entrega a domicilio. Proporciona una interfaz web para visualizar los datos de ventas y realizar un seguimiento detallado de diferentes métricas y canales de ventas.
 
-### `npm start`
+## Funcionalidades
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Visualización de datos de ventas.
+- Seguimiento de ventas por canal.
+- Análisis de ventas por forma de entrega.
+- Registro y seguimiento de pedidos.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Tecnologías Utilizadas
 
-### `npm test`
+- **React.js**: Framework de desarrollo de interfaces de usuario.
+- **Styled Components**: Librería para escribir estilos en componentes de React.
+- **React Hooks**: Permite el uso de estado y otras características de React en componentes funcionales.
+- **Redux**: Biblioteca para la gestión del estado global de la aplicación.
+- **TypeScript**: Superset de JavaScript que añade tipado estático opcional.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Configuración y Uso
 
-### `npm run build`
+1. Clona este repositorio en tu máquina local.
+2. Instala las dependencias usando `npm install`.
+3. Ejecuta la aplicación con `npm start`.
+4. Accede a la aplicación en tu navegador utilizando la dirección `http://localhost:3000/`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Asegúrate de configurar adecuadamente las variables de entorno y la conexión a la base de datos según sea necesario.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contribución
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Si deseas contribuir a este proyecto, por favor sigue estos pasos:
 
-### `npm run eject`
+1. Haz un fork del repositorio.
+2. Crea una rama para tu contribución (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y realiza commits con mensajes descriptivos.
+4. Haz push a tu rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre una solicitud de extracción (Pull Request) describiendo tus cambios.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Autor
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Daniel Toledo
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
 
 ## Learn More
 
