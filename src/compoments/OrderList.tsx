@@ -1,45 +1,47 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { Button, Drawer, Select, Space } from "antd";
 import OrderItem from "./OrderItem";
-import {  Order, RootState} from "../types/types";
-import { addOrder } from "../features/orderSlice";
-import { Button, Select, Space } from "antd";
+import { Order, RootState } from "../types/types";
+import { CreateForm } from "../layouts/CreateForm";
 import OrderContainer from "../features/OrderContainer";
-import { format } from 'date-fns';
-
+import { Outlet } from "react-router-dom";
 
 const OrderList: React.FC = () => {
   const allOrders = useSelector((state: RootState) => state.orders.orders);
   const [filter, setFilter] = useState("all");
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
-  const dispatch = useDispatch();
-  const handleAddOrder = () => {
-    const newOrder: Order = {
-      id: Date.now().toString(),
-      status: "pending",
-      items: [
-        { nombre: "Dish 1", costo: 10, fecha: new Date(), cantidad : 1 },
-      ],
-    };
-    dispatch(addOrder(newOrder));
-  };
+  const [order, setOrder] = useState<null | Order>(null);
 
   const handleFilterChange = (value: string) => {
     setFilter(value);
   };
+
+  const handleAddClick = () => {
+    setOrder(null);
+    setIsDrawerVisible(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOrder(null);
+    setIsDrawerVisible(false);
+  };
+
   const filteredOrders = allOrders.filter((order: Order) => {
-    if (filter === "completed") {
-      return order.status === "completed";
-    } else if (filter === "pending") {
-      return order.status === "pending";
-    } else if (filter === "process") {
-      return order.status === "process";
+    if (filter === "finish") {
+      return order.status === "finish";
+    } else if (filter === "wait") {
+      return order.status === "wait";
+    } else if (filter === "error") {
+      return order.status === "error";
     } else {
       return true;
     }
   });
+
   return (
-    <div style={{ background: "#1f4457"}}>
+    <div style={{ background: "#1f4457" }}>
       <h2 style={{ color: "#f2f2f2", marginLeft: "10%" }}>
         Listado de ordenes
       </h2>
@@ -50,11 +52,11 @@ const OrderList: React.FC = () => {
           marginLeft: "10%",
         }}
       >
-        <div >
+        <div>
           <Button
             type="primary"
             style={{ backgroundColor: "#1f6b57", borderColor: "#1f6b57" }}
-            onClick={handleAddOrder}
+            onClick={handleAddClick}
           >
             Añadir Orden
           </Button>
@@ -62,17 +64,32 @@ const OrderList: React.FC = () => {
             Ver Cocina
           </Button>
         </div>
+        <Drawer
+          title={`Nueva Orden`}
+          open={isDrawerVisible}
+          onClose={handleDrawerClose}
+          width={450}
+        >
+          {isDrawerVisible && (
+            <CreateForm
+              order={order}
+              setOrder={setOrder}
+              onClose={handleDrawerClose}
+            />
+          )}
+        </Drawer>
+
         <div>
           <label style={{ color: "#f2f2f2" }}>Estado de pedido: </label>
           <Space wrap style={{ marginRight: "183px" }}>
             <Select
-             onChange={handleFilterChange}
+              onChange={handleFilterChange}
               defaultValue=""
               style={{ width: 120 }}
               options={[
-                { value: "completed", label: "Completado" },
-                { value: "pending", label: "Pendientes" },
-                { value: "process", label: "Proceso" },
+                { value: "finish", label: "Completado" },
+                { value: "wait", label: "Pendientes" },
+                { value: "error", label: "Canceladas" },
               ]}
             />
           </Space>
@@ -86,7 +103,7 @@ const OrderList: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "0px"
+          marginTop: "0px",
         }}
       >
         {filteredOrders.length === 0 ? (
@@ -97,52 +114,41 @@ const OrderList: React.FC = () => {
           <div
             style={{
               display: "flex",
+              flexDirection: "row-reverse",
               justifyContent: "center",
               alignItems: "center",
               flexWrap: "wrap",
-              marginTop:"0px"
+              marginTop: "0px",
             }}
           >
-{filteredOrders.map((order: Order, index: number) => (
-  <React.Fragment key={order.id}>
-    {order.items.map((item,itemIndex) => (
-      <OrderItem
-      key={`${order.id}-${itemIndex}`}
-        id={order.id}
-        nombre={item.nombre}
-        costo={item.costo}
-        fecha={new Date(item.fecha)}
-        cantidad ={item.cantidad}
-      />
-    ))}
-                {index % 3 === 2 && (
-                  <div style={{ width: "100%", height: "20px" }}></div>
-                )}
-              </React.Fragment>
+            {filteredOrders.map((order: Order) => (
+              <OrderItem
+                key={order.id}
+                id={order.id}
+                items={order.items}
+                status={order.status}
+              />
             ))}
           </div>
         )}
       </div>
-      
+
       {filteredOrders.length > 3 ? (
-    <div style={{ marginTop: '40px' }}>
-      <OrderContainer />
-    </div>
-  ) : (
-    filteredOrders.length > 0 ? (
-      <div style={{ marginTop: '334px' }}>
-        <OrderContainer />
-      </div>
-    ) : (
-      <div style={{ marginTop: '581px' }}>
-        <OrderContainer />
-      </div>
-    )
-  )}
-      
+        <div style={{ marginTop: "40px" }}>
+          <OrderContainer />
+        </div>
+      ) : filteredOrders.length > 0 ? (
+        <div style={{ marginTop: "334px" }}>
+          <OrderContainer />
+        </div>
+      ) : (
+        <div style={{ marginTop: "581px" }}>
+          <OrderContainer />
+        </div>
+      )}
+      <Outlet />
     </div>
   );
 };
 
 export default OrderList;
-

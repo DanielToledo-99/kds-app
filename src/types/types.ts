@@ -1,19 +1,19 @@
 export interface RootState {
-
   orders: {
     orders: Order[];
   };
 }
-
-export interface OrderItem {
+export type OrderStatus = "wait" | "process" | "finish" | "error";
+export interface OrderItems {
   nombre: string;
   costo: number;
   fecha: Date;
-  cantidad: number
+  cantidad: number;
+  observaciones: string;
 }
 
 export interface Order {
   id: string;
-  status: string;
-  items: OrderItem[];
+  status: OrderStatus;
+  items: OrderItems[];
 }

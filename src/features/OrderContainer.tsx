@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const CenteredContainer = styled.div`
@@ -33,6 +34,7 @@ const OrderContainer: React.FC = () => {
           <p>Contacto: (123) 456-7890</p>
         </footer>
       </OrdersWrapper>
+      <Outlet />
     </CenteredContainer>
   );
 };
