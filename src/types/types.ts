@@ -1,9 +1,19 @@
 export interface RootState {
+
   orders: {
-    orders: {
-      status: any;
-      id: string;
-      items: string[];
-    }[];
+    orders: Order[];
   };
+}
+
+export interface OrderItem {
+  nombre: string;
+  costo: number;
+  fecha: Date;
+  cantidad: number
+}
+
+export interface Order {
+  id: string;
+  status: string;
+  items: OrderItem[];
 }

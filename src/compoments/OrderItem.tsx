@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Steps } from "antd";
+import { Button, Steps, Table } from "antd";
 const OrderItemWrapper = styled.div`
   border: 1px solid #ccc;
   padding: 10px;
@@ -10,12 +10,24 @@ const OrderItemWrapper = styled.div`
   background: #ffffff;
 `;
 
-interface OrderItemProps {
-  id: string;
-  items: string[];
+
+interface Item {
+  nombre: string;
+  costo: number;
+  fecha: Date;
+  cantidad:number;
 }
 
-const OrderItem: React.FC<OrderItemProps> = ({ id, items }) => {
+interface OrderItemProps {
+  id: string;
+  nombre: string;
+  costo: number;
+  cantidad:number;
+  fecha: Date;
+}
+
+const OrderItem: React.FC<OrderItemProps> = ({ id, nombre, costo, fecha,cantidad }) => {
+  console.log(fecha)
   const handleViewDetails = () => {
     console.log(`Detalles de la orden #${id}`);
   };
@@ -24,14 +36,52 @@ const OrderItem: React.FC<OrderItemProps> = ({ id, items }) => {
     console.log(`Orden #${id} marcada como completada`);
   };
 
+
+  const dataSource = [
+    {
+      
+      plato: nombre,
+      cantidad: cantidad,
+      costo: 's/.'+ costo,
+      fecha:fecha.toLocaleString()
+    },
+  ]
+  const columns =[
+    {
+      title: 'Plato', 
+      dataIndex: 'plato',
+      key: 'plato',
+    },
+    {
+      title: 'Cantidad', 
+      dataIndex: 'cantidad',
+      key: 'cantidad',
+    },
+    {
+      title: 'Precio', 
+      dataIndex: 'costo',
+      key: 'costo',
+    },
+    {
+      title: 'Fecha', 
+      dataIndex: 'fecha',
+      key: 'fecha',
+    }
+
+  ]
+
+
   return (
     <OrderItemWrapper>
       <h3>Order #{id}</h3>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      <div>
+
+      <div>
+      <Table dataSource={dataSource} columns={columns} />;
+    </div>
+     
+     
+    </div>
       <hr
         style={{
           border: "1px solid rgba(128, 128, 128, 0.3)",

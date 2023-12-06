@@ -1,38 +1,45 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
-import { RootState } from "../types/types";
+import {  Order, RootState} from "../types/types";
 import { addOrder } from "../features/orderSlice";
 import { Button, Select, Space } from "antd";
 import OrderContainer from "../features/OrderContainer";
+import { format } from 'date-fns';
+
 
 const OrderList: React.FC = () => {
   const allOrders = useSelector((state: RootState) => state.orders.orders);
   const [filter, setFilter] = useState("all");
 
   const dispatch = useDispatch();
-
   const handleAddOrder = () => {
-    const newOrder = {
+    const newOrder: Order = {
       id: Date.now().toString(),
-      items: ["Dish 1", "Dish 2"],
+      status: "pending",
+      items: [
+        { nombre: "Dish 1", costo: 10, fecha: new Date(), cantidad : 1 },
+      ],
     };
-
     dispatch(addOrder(newOrder));
   };
 
-  const filteredOrders = allOrders.filter((order) => {
+  const handleFilterChange = (value: string) => {
+    setFilter(value);
+  };
+  const filteredOrders = allOrders.filter((order: Order) => {
     if (filter === "completed") {
       return order.status === "completed";
-    } else if (filter === "pending" || filter === "process") {
-      return order.status !== "completed";
+    } else if (filter === "pending") {
+      return order.status === "pending";
+    } else if (filter === "process") {
+      return order.status === "process";
     } else {
       return true;
     }
   });
-
   return (
-    <div style={{ background: "#1f4457", height: "75vh" }}>
+    <div style={{ background: "#1f4457"}}>
       <h2 style={{ color: "#f2f2f2", marginLeft: "10%" }}>
         Listado de ordenes
       </h2>
@@ -43,7 +50,7 @@ const OrderList: React.FC = () => {
           marginLeft: "10%",
         }}
       >
-        <div>
+        <div >
           <Button
             type="primary"
             style={{ backgroundColor: "#1f6b57", borderColor: "#1f6b57" }}
@@ -59,12 +66,13 @@ const OrderList: React.FC = () => {
           <label style={{ color: "#f2f2f2" }}>Estado de pedido: </label>
           <Space wrap style={{ marginRight: "183px" }}>
             <Select
-              defaultValue="completado"
+             onChange={handleFilterChange}
+              defaultValue=""
               style={{ width: 120 }}
               options={[
-                { value: "completado", label: "Completado" },
-                { value: "pendiente", label: "Pendientes" },
-                { value: "proceso", label: "Proceso" },
+                { value: "completed", label: "Completado" },
+                { value: "pending", label: "Pendientes" },
+                { value: "process", label: "Proceso" },
               ]}
             />
           </Space>
@@ -78,7 +86,7 @@ const OrderList: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "8%",
+          marginTop: "0px"
         }}
       >
         {filteredOrders.length === 0 ? (
@@ -92,11 +100,21 @@ const OrderList: React.FC = () => {
               justifyContent: "center",
               alignItems: "center",
               flexWrap: "wrap",
+              marginTop:"0px"
             }}
           >
-            {filteredOrders.map((order, index) => (
-              <React.Fragment key={order.id as string}>
-                <OrderItem id={order.id as string} items={order.items} />
+{filteredOrders.map((order: Order, index: number) => (
+  <React.Fragment key={order.id}>
+    {order.items.map((item,itemIndex) => (
+      <OrderItem
+      key={`${order.id}-${itemIndex}`}
+        id={order.id}
+        nombre={item.nombre}
+        costo={item.costo}
+        fecha={new Date(item.fecha)}
+        cantidad ={item.cantidad}
+      />
+    ))}
                 {index % 3 === 2 && (
                   <div style={{ width: "100%", height: "20px" }}></div>
                 )}
@@ -105,9 +123,26 @@ const OrderList: React.FC = () => {
           </div>
         )}
       </div>
+      
+      {filteredOrders.length > 3 ? (
+    <div style={{ marginTop: '40px' }}>
       <OrderContainer />
+    </div>
+  ) : (
+    filteredOrders.length > 0 ? (
+      <div style={{ marginTop: '334px' }}>
+        <OrderContainer />
+      </div>
+    ) : (
+      <div style={{ marginTop: '581px' }}>
+        <OrderContainer />
+      </div>
+    )
+  )}
+      
     </div>
   );
 };
 
 export default OrderList;
+
