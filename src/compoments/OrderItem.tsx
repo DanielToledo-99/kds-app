@@ -125,7 +125,9 @@ const OrderItem: React.FC<Order> = ({ id, items, status }) => {
         }}
       />
       <div>
-        <h4>Estado en Cocina:</h4>
+        <Text>Estado en Cocina:</Text>
+        <br></br>
+        <br></br>
         <Steps
           current={numberStatus}
           status={localStatus}

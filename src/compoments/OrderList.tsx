@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Drawer, Select, Space } from "antd";
+import { Button, Drawer, Select, Space, Typography } from "antd";
 import OrderItem from "./OrderItem";
 import { Order, RootState } from "../types/types";
 import { CreateForm } from "../layouts/CreateForm";
 import OrderContainer from "../features/OrderContainer";
 import { Outlet } from "react-router-dom";
-
+const { Text } = Typography;
 const OrderList: React.FC = () => {
   const allOrders = useSelector((state: RootState) => state.orders.orders);
   const [filter, setFilter] = useState("all");
@@ -42,9 +42,9 @@ const OrderList: React.FC = () => {
 
   return (
     <div style={{ background: "#1f4457" }}>
-      <h2 style={{ color: "#f2f2f2", marginLeft: "10%" }}>
+      <Text style={{ color: "#f2f2f2", marginLeft: "10%", fontSize: "30px" }}>
         Listado de ordenes
-      </h2>
+      </Text>
       <div
         style={{
           display: "flex",
@@ -80,7 +80,7 @@ const OrderList: React.FC = () => {
         </Drawer>
 
         <div>
-          <label style={{ color: "#f2f2f2" }}>Estado de pedido: </label>
+          <Text style={{ color: "#f2f2f2" }}>Estado de pedido: </Text>
           <Space wrap style={{ marginRight: "183px" }}>
             <Select
               onChange={handleFilterChange}
@@ -107,7 +107,12 @@ const OrderList: React.FC = () => {
         }}
       >
         {filteredOrders.length === 0 ? (
-          <p style={{ color: "#f2f2f2", textAlign: "center" }}>
+          <p
+            style={{
+              color: "#f2f2f2",
+              textAlign: "center",
+            }}
+          >
             No hay órdenes
           </p>
         ) : (
